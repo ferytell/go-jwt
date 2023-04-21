@@ -11,17 +11,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CreateProduct godoc
-// @Summary Create product
-// @Description Create product with the given details
-// @Tags products
+// CreatePhoto godoc
+// @Summary Create Photo
+// @Description Post new Photo based on userId
+// @Tags photo
 // @Accept json
 // @Produce json
-// @Param product body Product true "Product object"
-// @Success 200 {object} Product
-// @Failure 400 {object} ErrorResponse
+// @Param models.photo body models.photo true "create photo"
+// @Succes 200 {object} models.photo
 // @Router /products [post]
-func CreateProduct(c *gin.Context) {
+func CreatePhoto(c *gin.Context) {
 	db := database.GetDB()
 	userData := c.MustGet("userData").(jwt.MapClaims)
 	contentType := helpers.GetContentType(c)
@@ -56,9 +55,9 @@ func CreateProduct(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param models.product body models.product true "update product"
-// @Succes 200 {object} Product
+// @Succes 200 {object} models.product
 // @Router /products/{productId} [put]
-func UpdateProduct(c *gin.Context) {
+func UpdatePhoto(c *gin.Context) {
 	db := database.GetDB()
 	userData := c.MustGet("userData").(jwt.MapClaims)
 	contentType := helpers.GetContentType(c)
@@ -90,17 +89,7 @@ func UpdateProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, Product)
 }
 
-// GetProduct godoc
-// @Summary Get All product
-// @Description Show All product with the given details
-// @Tags products
-// @Accept json
-// @Produce json
-// @Param product body Product true "Product object"
-// @Success 200 {object} Product
-// @Failure 400 {object} ErrorResponse
-// @Router /products [get]
-func GetProduct(c *gin.Context) {
+func GetPhoto(c *gin.Context) {
 	db := database.GetDB()
 
 	products := []models.Product{}
@@ -117,17 +106,7 @@ func GetProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, products)
 }
 
-// GetProductById godoc
-// @Summary Show product by Id
-// @Description show product with the given details
-// @Tags products
-// @Accept json
-// @Produce json
-// @Param product body Product true "Product object"
-// @Success 200 {object} Product
-// @Failure 400 {object} ErrorResponse
-// @Router /products/{productId} [get]
-func GetProductByID(c *gin.Context) {
+func GetPhotoByID(c *gin.Context) {
 	db := database.GetDB()
 
 	productId, _ := strconv.Atoi(c.Param("productId"))
@@ -146,17 +125,7 @@ func GetProductByID(c *gin.Context) {
 	c.JSON(http.StatusOK, product)
 }
 
-// DeleteProduct godoc
-// @Summary Delete product by Id
-// @Description show product with the given details
-// @Tags products
-// @Accept json
-// @Produce json
-// @Param product body Product true "Product object"
-// @Success 200 {object} Product
-// @Failure 400 {object} ErrorResponse
-// @Router /products/{productId} [delete]
-func DeleteProduct(c *gin.Context) {
+func DeletePhoto(c *gin.Context) {
 	db := database.GetDB()
 	productId, _ := strconv.Atoi(c.Param("productId"))
 
