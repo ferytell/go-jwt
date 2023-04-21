@@ -9,20 +9,11 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// @title myGram API
-// @version 1.0.0
-// @description This is just sample
-// @termsOfService http://swagger.io/terms
-// @contact.name API suppoer
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host localhost:8000
-// @BasePath /
 func StartApp() *gin.Engine {
 	r := gin.Default()
 
-	// register router
-
+	// add swagger
+	// @Security BearerAuth
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	userRouter := r.Group("/users")
@@ -58,16 +49,34 @@ func StartApp() *gin.Engine {
 
 		// swagger
 		photoRouter.Use(middlewares.Authentication())
-		// product Create
+		// photo Create
 		photoRouter.POST("/", controllers.CreatePhoto)
-		// product Edit
+		// photo Edit
 		photoRouter.PUT("/:photoId", middlewares.PhotoAuthorization(), controllers.UpdatePhoto)
-		// product Create
+		// photo Create
 		photoRouter.GET("/", controllers.GetPhoto)
-		// product Edit
+		// photo Edit
 		photoRouter.GET("/:photoId", controllers.GetPhotoByID)
-		// product Delete
+		// photo Delete
 		photoRouter.DELETE("/:photoId", controllers.DeletePhoto)
+	}
+
+	socialMediaRouter := r.Group("/socialmedia")
+
+	{
+
+		// swagger
+		socialMediaRouter.Use(middlewares.Authentication())
+		// socmed Create
+		socialMediaRouter.POST("/", controllers.CreateSocialMedia)
+		// socmed Edit
+		socialMediaRouter.PUT("/:socmedId", middlewares.SocMedAuthorization(), controllers.UpdateSocialMedia)
+		// socmed Create
+		socialMediaRouter.GET("/", controllers.GetSocialMedia)
+		// socmed Edit
+		socialMediaRouter.GET("/:socmedId", controllers.GetSocialMediaById)
+		// socmed Delete
+		socialMediaRouter.DELETE("/:socmedId", controllers.DeleteSocialMedia)
 	}
 
 	return r

@@ -11,23 +11,23 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreatePhoto(c *gin.Context) {
+func CreateSocialMedia(c *gin.Context) {
 	db := database.GetDB()
 	userData := c.MustGet("userData").(jwt.MapClaims)
 	contentType := helpers.GetContentType(c)
 
-	Photo := models.Photo{}
+	SocialMedia := models.SocialMedia{}
 	userID := uint(userData["id"].(float64))
 
 	if contentType == appJSON {
-		c.ShouldBindJSON(&Photo)
+		c.ShouldBindJSON(&SocialMedia)
 	} else {
-		c.ShouldBind(&Photo)
+		c.ShouldBind(&SocialMedia)
 	}
 
-	Photo.UserID = userID
+	SocialMedia.UserID = userID
 
-	err := db.Debug().Create(&Photo).Error
+	err := db.Debug().Create(&SocialMedia).Error
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -36,29 +36,29 @@ func CreatePhoto(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusCreated, Photo)
+	c.JSON(http.StatusCreated, SocialMedia)
 }
 
-func UpdatePhoto(c *gin.Context) {
+func UpdateSocialMedia(c *gin.Context) {
 	db := database.GetDB()
 	userData := c.MustGet("userData").(jwt.MapClaims)
 	contentType := helpers.GetContentType(c)
-	Photo := models.Photo{}
+	SocialMedia := models.SocialMedia{}
 
-	photoId, _ := strconv.Atoi(c.Param("photoId"))
+	socmedId, _ := strconv.Atoi(c.Param("socmedId"))
 	userID := uint(userData["id"].(float64))
 
 	if contentType == appJSON {
-		c.ShouldBindJSON(&Photo)
+		c.ShouldBindJSON(&SocialMedia)
 	} else {
-		c.ShouldBind(&Photo)
+		c.ShouldBind(&SocialMedia)
 	}
 
-	Photo.UserID = userID
-	Photo.ID = uint(photoId)
+	SocialMedia.UserID = userID
+	SocialMedia.ID = uint(socmedId)
 
 	// err := db.Table("Product").Where("id = ?", c.param("productId")).Updates(models.Product{Title: Product.Title, Description: Product.Description}).Error
-	err := db.Model(&Photo).Where("id = ?", photoId).Updates(models.Photo{Title: Photo.Title, Caption: Photo.Caption, PhotoURL: Photo.PhotoURL}).Error
+	err := db.Model(&SocialMedia).Where("id = ?", socmedId).Updates(models.SocialMedia{Name: SocialMedia.Name, SocialMediaURL: SocialMedia.SocialMediaURL}).Error
 
 	if err != nil {
 
@@ -68,14 +68,14 @@ func UpdatePhoto(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusOK, Photo)
+	c.JSON(http.StatusOK, SocialMedia)
 }
 
-func GetPhoto(c *gin.Context) {
+func GetSocialMedia(c *gin.Context) {
 	db := database.GetDB()
 
-	Photo := []models.Photo{}
-	err := db.Find(&Photo).Error
+	SocialMedia := []models.SocialMedia{}
+	err := db.Find(&SocialMedia).Error
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -85,16 +85,16 @@ func GetPhoto(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, Photo)
+	c.JSON(http.StatusOK, SocialMedia)
 }
 
-func GetPhotoByID(c *gin.Context) {
+func GetSocialMediaById(c *gin.Context) {
 	db := database.GetDB()
 
-	photoId, _ := strconv.Atoi(c.Param("photoId"))
+	socmedId, _ := strconv.Atoi(c.Param("socmedId"))
 
-	Photo := models.Photo{}
-	err := db.Where("id = ?", photoId).First(&Photo).Error
+	SocialMedia := models.SocialMedia{}
+	err := db.Where("id = ?", socmedId).First(&SocialMedia).Error
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -104,33 +104,33 @@ func GetPhotoByID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, Photo)
+	c.JSON(http.StatusOK, SocialMedia)
 }
 
-func DeletePhoto(c *gin.Context) {
+func DeleteSocialMedia(c *gin.Context) {
 	db := database.GetDB()
-	photoId, _ := strconv.Atoi(c.Param("photoId"))
+	socmedID, _ := strconv.Atoi(c.Param("socmedId"))
 
 	// Check if the product exists
-	var Photo models.Photo
-	if err := db.First(&Photo, photoId).Error; err != nil {
+	SocialMedia := models.SocialMedia{}
+	if err := db.First(&SocialMedia, socmedID).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error":   "Not Found",
-			"message": "Photo not found",
+			"message": "Social Media not found",
 		})
 		return
 	}
 
 	// Delete the product
-	if err := db.Delete(&Photo).Error; err != nil {
+	if err := db.Delete(&SocialMedia).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Internal Server Error",
-			"message": "Failed to delete photo",
+			"message": "Failed to delete Social Media",
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Photo deleted successfully",
+		"message": "Social Media deleted successfully",
 	})
 }

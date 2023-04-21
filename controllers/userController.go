@@ -13,16 +13,14 @@ var (
 	appJSON = "application/json"
 )
 
-// UserRegister godoc
-// @Summary Create New User
-// @Description add new user
-// @Tags products
-// @Accept json
-// @Produce json
-// @Param product body Product true "User"
-// @Success 200 {object} User
-// @Failure 400 {object} ErrorResponse
-// @Router /users/register [post]
+// CreateTags		godoc
+// @Summary			Create new User
+// @Description		Register new user data in Db.
+// @Param			tags body models.User{} true "Create user"
+// @Produce			application/json
+// @Tags			user
+// @Success			200 {object} models.User{}
+// @Router			/users/register [post]
 func UserRegister(c *gin.Context) {
 	db := database.GetDB()
 	contentType := helpers.GetContentType(c)
@@ -53,16 +51,14 @@ func UserRegister(c *gin.Context) {
 	})
 }
 
-// UserRegister godoc
-// @Summary Create New User
-// @Description add new user
-// @Tags products
-// @Accept json
-// @Produce json
-// @Param product body Product true "User"
-// @Success 200 {object} User
-// @Failure 400 {object} ErrorResponse
-// @Router /users/login [post]
+// CreateTags		godoc
+// @Summary			User Login
+// @Description		New user Login and verived based on data in Db.
+// @Param			tags body models.User{} true "User login"
+// @Produce			application/json
+// @Tags			user
+// @Success			200 {object} models.User{}
+// @Router			/users/login [post]
 func UserLogin(c *gin.Context) {
 	db := database.GetDB()
 	contentType := helpers.GetContentType(c)

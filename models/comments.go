@@ -8,10 +8,10 @@ import (
 type Comments struct {
 	GormModel
 	Message string `gorm:"not null" json:"message" form:"message" valid:"required~Your full name is required"`
-	PhotoID uint
-	Photo   *Photo
-	UserID  uint
-	User    *User
+	PhotoID uint   `gorm:"index"`
+	Photo   *Photo `json:"photo,omitempty"`
+	UserID  uint   `gorm:"index"`
+	User    *User  `json:"user,omitempty"`
 }
 
 func (u *Comments) BeforeCreate(tx *gorm.DB) (err error) {

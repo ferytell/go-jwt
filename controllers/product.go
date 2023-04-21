@@ -11,16 +11,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CreateProduct godoc
-// @Summary Create product
-// @Description Create product with the given details
-// @Tags products
-// @Accept json
-// @Produce json
-// @Param product body Product true "Product object"
-// @Success 200 {object} Product
-// @Failure 400 {object} ErrorResponse
-// @Router /products [post]
+// CreateTags		godoc
+// @Summary			Create Product
+// @Description		Save product data in Db.
+// @Produce			application/json
+// @Tags			products
+// @Success			200 {object} models.Product{}
+// @Security 		Bearer
+// @Param 			Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Router			/products [post]
 func CreateProduct(c *gin.Context) {
 	db := database.GetDB()
 	userData := c.MustGet("userData").(jwt.MapClaims)
@@ -49,15 +48,15 @@ func CreateProduct(c *gin.Context) {
 	c.JSON(http.StatusCreated, Product)
 }
 
-// UpdateProduct godoc
-// @Summary Update product
-// @Description Update product
-// @Tags product
-// @Accept json
-// @Produce json
-// @Param models.product body models.product true "update product"
-// @Succes 200 {object} Product
-// @Router /products/{productId} [put]
+// UpdateTags		godoc
+// @Summary			Update tags
+// @Description		Update tags data.
+// @Param			tagId path string true "update tags by id"
+// @Param			tags body models.Product{} true  "Update tags"
+// @Tags			products
+// @Produce			application/json
+// @Success			200 {object} models.Product{}
+// @Router			/products/{productId} [patch]
 func UpdateProduct(c *gin.Context) {
 	db := database.GetDB()
 	userData := c.MustGet("userData").(jwt.MapClaims)
@@ -90,16 +89,14 @@ func UpdateProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, Product)
 }
 
-// GetProduct godoc
-// @Summary Get All product
-// @Description Show All product with the given details
-// @Tags products
-// @Accept json
-// @Produce json
-// @Param product body Product true "Product object"
-// @Success 200 {object} Product
-// @Failure 400 {object} ErrorResponse
-// @Router /products [get]
+// FindAllTags 		godoc
+// @Summary			Get All tags.
+// @Description		Return list of tags.
+// @Tags			products
+// @Security 		Bearer
+// @Param 			Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Success			200 {obejct} []models.Product{}
+// @Router			/products [get]
 func GetProduct(c *gin.Context) {
 	db := database.GetDB()
 
@@ -117,16 +114,14 @@ func GetProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, products)
 }
 
-// GetProductById godoc
-// @Summary Show product by Id
-// @Description show product with the given details
-// @Tags products
-// @Accept json
-// @Produce json
-// @Param product body Product true "Product object"
-// @Success 200 {object} Product
-// @Failure 400 {object} ErrorResponse
-// @Router /products/{productId} [get]
+// FindByIdTags 		godoc
+// @Summary				Get Single tags by id.
+// @Param				tagId path string true "update tags by id"
+// @Description			Return the tahs whoes tagId valu mathes id.
+// @Produce				application/json
+// @Tags				products
+// @Success				200 {object} models.Product{}
+// @Router				/products/{productId} [get]
 func GetProductByID(c *gin.Context) {
 	db := database.GetDB()
 
@@ -146,16 +141,13 @@ func GetProductByID(c *gin.Context) {
 	c.JSON(http.StatusOK, product)
 }
 
-// DeleteProduct godoc
-// @Summary Delete product by Id
-// @Description show product with the given details
-// @Tags products
-// @Accept json
-// @Produce json
-// @Param product body Product true "Product object"
-// @Success 200 {object} Product
-// @Failure 400 {object} ErrorResponse
-// @Router /products/{productId} [delete]
+// DeleteTags		godoc
+// @Summary			Delete tags
+// @Description		Remove tags data by id.
+// @Produce			application/json
+// @Tags			products
+// @Success			200 {object} models.Product{}
+// @Router			/products/{productId} [delete]
 func DeleteProduct(c *gin.Context) {
 	db := database.GetDB()
 	productId, _ := strconv.Atoi(c.Param("productId"))

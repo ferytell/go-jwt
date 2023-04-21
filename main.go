@@ -12,8 +12,10 @@ import (
 // @title 	Tag Service API
 // @version	1.0
 // @description A Tag service API in Go using Gin framework
-
-// @host 	localhost:8000
+// @host localhost:8000
+// @securityDefinitions.apiKey BearerAuth
+// @in header
+// @name Authorization
 // @BasePath /
 
 func init() {

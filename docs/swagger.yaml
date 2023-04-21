@@ -1,15 +1,249 @@
+definitions:
+  models.Comments:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      message:
+        type: string
+      photo:
+        $ref: '#/definitions/models.Photo'
+      photoID:
+        type: integer
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      userID:
+        type: integer
+    type: object
+  models.Photo:
+    properties:
+      caption:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      photo_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      userID:
+        type: integer
+    type: object
+  models.Product:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      userID:
+        type: integer
+    type: object
+  models.SocialMedia:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      social_media_url:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      userID:
+        type: integer
+    type: object
+  models.User:
+    properties:
+      age:
+        minimum: 18
+        type: integer
+      comments:
+        items:
+          $ref: '#/definitions/models.Comments'
+        type: array
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      photo:
+        items:
+          $ref: '#/definitions/models.Photo'
+        type: array
+      products:
+        items:
+          $ref: '#/definitions/models.Product'
+        type: array
+      social_media:
+        items:
+          $ref: '#/definitions/models.SocialMedia'
+        type: array
+      updated_at:
+        type: string
+      user_name:
+        type: string
+    required:
+    - age
+    type: object
 info:
   contact: {}
 paths:
   /products:
+    get:
+      description: Return list of tags.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: obejct
+      security:
+      - Bearer: []
+      summary: Get All tags.
+      tags:
+      - products
     post:
-      consumes:
-      - application/json
-      description: Create product
+      description: Save product data in Db.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
-      responses: {}
-      summary: Create product
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Product'
+      security:
+      - Bearer: []
+      summary: Create Product
       tags:
-      - product
+      - products
+  /products/{productId}:
+    delete:
+      description: Remove tags data by id.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Product'
+      summary: Delete tags
+      tags:
+      - products
+    get:
+      description: Return the tahs whoes tagId valu mathes id.
+      parameters:
+      - description: update tags by id
+        in: path
+        name: tagId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Product'
+      summary: Get Single tags by id.
+      tags:
+      - products
+    patch:
+      description: Update tags data.
+      parameters:
+      - description: update tags by id
+        in: path
+        name: tagId
+        required: true
+        type: string
+      - description: Update tags
+        in: body
+        name: tags
+        required: true
+        schema:
+          $ref: '#/definitions/models.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Product'
+      summary: Update tags
+      tags:
+      - products
+  /users/login:
+    post:
+      description: New user Login and verived based on data in Db.
+      parameters:
+      - description: User login
+        in: body
+        name: tags
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: User Login
+      tags:
+      - user
+  /users/register:
+    post:
+      description: Register new user data in Db.
+      parameters:
+      - description: Create user
+        in: body
+        name: tags
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Create new User
+      tags:
+      - user
 swagger: "2.0"
