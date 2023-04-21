@@ -25,18 +25,18 @@ func CreatePhoto(c *gin.Context) {
 	userData := c.MustGet("userData").(jwt.MapClaims)
 	contentType := helpers.GetContentType(c)
 
-	Product := models.Product{}
+	Photo := models.Photo{}
 	userID := uint(userData["id"].(float64))
 
 	if contentType == appJSON {
-		c.ShouldBindJSON(&Product)
+		c.ShouldBindJSON(&Photo)
 	} else {
-		c.ShouldBind(&Product)
+		c.ShouldBind(&Photo)
 	}
 
-	Product.UserID = userID
+	Photo.UserID = userID
 
-	err := db.Debug().Create(&Product).Error
+	err := db.Debug().Create(&Photo).Error
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -45,7 +45,7 @@ func CreatePhoto(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusCreated, Product)
+	c.JSON(http.StatusCreated, Photo)
 }
 
 // UpdateProduct godoc
@@ -61,22 +61,22 @@ func UpdatePhoto(c *gin.Context) {
 	db := database.GetDB()
 	userData := c.MustGet("userData").(jwt.MapClaims)
 	contentType := helpers.GetContentType(c)
-	Product := models.Product{}
+	Photo := models.Photo{}
 
-	productId, _ := strconv.Atoi(c.Param("productId"))
+	photoId, _ := strconv.Atoi(c.Param("photoId"))
 	userID := uint(userData["id"].(float64))
 
 	if contentType == appJSON {
-		c.ShouldBindJSON(&Product)
+		c.ShouldBindJSON(&Photo)
 	} else {
-		c.ShouldBind(&Product)
+		c.ShouldBind(&Photo)
 	}
 
-	Product.UserID = userID
-	Product.ID = uint(productId)
+	Photo.UserID = userID
+	Photo.ID = uint(photoId)
 
 	// err := db.Table("Product").Where("id = ?", c.param("productId")).Updates(models.Product{Title: Product.Title, Description: Product.Description}).Error
-	err := db.Model(&Product).Where("id = ?", productId).Updates(models.Product{Title: Product.Title, Description: Product.Description}).Error
+	err := db.Model(&Photo).Where("id = ?", photoId).Updates(models.Photo{Title: Photo.Title, Caption: Photo.Caption, PhotoURL: Photo.PhotoURL}).Error
 
 	if err != nil {
 
@@ -86,14 +86,14 @@ func UpdatePhoto(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusOK, Product)
+	c.JSON(http.StatusOK, Photo)
 }
 
 func GetPhoto(c *gin.Context) {
 	db := database.GetDB()
 
-	products := []models.Product{}
-	err := db.Find(&products).Error
+	Photo := []models.Photo{}
+	err := db.Find(&Photo).Error
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -103,16 +103,16 @@ func GetPhoto(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, products)
+	c.JSON(http.StatusOK, Photo)
 }
 
 func GetPhotoByID(c *gin.Context) {
 	db := database.GetDB()
 
-	productId, _ := strconv.Atoi(c.Param("productId"))
+	photoId, _ := strconv.Atoi(c.Param("photoId"))
 
-	product := models.Product{}
-	err := db.Where("id = ?", productId).First(&product).Error
+	Photo := models.Photo{}
+	err := db.Where("id = ?", photoId).First(&Photo).Error
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -122,16 +122,16 @@ func GetPhotoByID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, product)
+	c.JSON(http.StatusOK, Photo)
 }
 
 func DeletePhoto(c *gin.Context) {
 	db := database.GetDB()
-	productId, _ := strconv.Atoi(c.Param("productId"))
+	photoId, _ := strconv.Atoi(c.Param("photoId"))
 
 	// Check if the product exists
-	var product models.Product
-	if err := db.First(&product, productId).Error; err != nil {
+	var Photo models.Photo
+	if err := db.First(&Photo, photoId).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error":   "Not Found",
 			"message": "Product not found",
@@ -140,7 +140,7 @@ func DeletePhoto(c *gin.Context) {
 	}
 
 	// Delete the product
-	if err := db.Delete(&product).Error; err != nil {
+	if err := db.Delete(&Photo).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Internal Server Error",
 			"message": "Failed to delete product",
@@ -149,6 +149,6 @@ func DeletePhoto(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Product deleted successfully",
+		"message": "Photo deleted successfully",
 	})
 }
