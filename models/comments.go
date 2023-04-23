@@ -5,9 +5,10 @@ import (
 	"gorm.io/gorm"
 )
 
+// Comments represents the model for a Comments
 type Comments struct {
 	GormModel
-	Message string `gorm:"not null" json:"message" form:"message" valid:"required~Your full name is required"`
+	Message string `gorm:"not null" json:"message" form:"message" valid:"required~Message is required"`
 	PhotoID uint   `gorm:"index"`
 	Photo   *Photo `json:"photo,omitempty"`
 	UserID  uint   `gorm:"index"`
