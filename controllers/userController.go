@@ -16,10 +16,11 @@ var (
 // CreateTags		godoc
 // @Summary			Create new User
 // @Description		Register new user data in Db.
-// @Param			tags body models.User{} true "Create user"
+// @Param 			Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Security 		Bearer
 // @Produce			application/json
-// @Tags			user
-// @Success			200 {object} models.User{}
+// @Tags			User
+// @Success			200 {object} []models.User{}
 // @Router			/users/register [post]
 func UserRegister(c *gin.Context) {
 	db := database.GetDB()
@@ -54,9 +55,10 @@ func UserRegister(c *gin.Context) {
 // CreateTags		godoc
 // @Summary			User Login
 // @Description		New user Login and verived based on data in Db.
-// @Param			tags body models.User{} true "User login"
+// @Security 		Bearer
+// @Param 			Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 // @Produce			application/json
-// @Tags			user
+// @Tags			User
 // @Success			200 {object} models.User{}
 // @Router			/users/login [post]
 func UserLogin(c *gin.Context) {

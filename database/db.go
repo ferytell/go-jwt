@@ -28,8 +28,8 @@ func StartDB() {
 	if err != nil {
 		log.Fatal("error connecting to database: ", err)
 	}
-	fmt.Println(os.Getenv("HOST"))
 	fmt.Println("sukses terkoneksi ke database")
+	// Migrate models
 	db.Debug().AutoMigrate(
 		models.User{},
 		models.Product{},
@@ -37,6 +37,27 @@ func StartDB() {
 		models.Photo{},
 		models.SocialMedia{},
 	)
+
+	// 	// Create trigger
+	// 	_, err := db.Exec(`CREATE OR REPLACE FUNCTION delete_comments()
+	// 	RETURNS TRIGGER AS
+	// 	$$
+	// 	BEGIN
+	// 		DELETE FROM comments WHERE photo_id = OLD.id;
+	// 		RETURN OLD;
+	// 	END;
+	// 	$$ LANGUAGE plpgsql;
+	// 	`),
+	// 	if err != nil {
+	// 	return err
+	// 	}
+	// 	//err = db.Exec(`CREATE TRIGGER delete_comments AFTER DELETE ON photos FOR EACH ROW EXECUTE FUNCTION delete_comments();`)
+	// 	err = db.Exec(`CREATE TRIGGER delete_comments AFTER DELETE ON photos FOR EACH ROW BEGIN DELETE FROM comments WHERE photo_id = OLD.id; END;`).Error
+	// 	if err != nil {
+	// 		log.Fatal("error creating trigger: ", err)
+	// 	}
+
+	// 	fmt.Println("successfully created trigger")
 
 }
 

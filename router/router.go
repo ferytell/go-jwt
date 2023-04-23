@@ -13,6 +13,7 @@ func StartApp() *gin.Engine {
 	r := gin.Default()
 
 	// add swagger
+	// open here http://localhost:8000/swagger/index.html
 	// @Security BearerAuth
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
@@ -22,13 +23,10 @@ func StartApp() *gin.Engine {
 		userRouter.POST("/register", controllers.UserRegister)
 		// user Login
 		userRouter.POST("/login", controllers.UserLogin)
-
 	}
 
 	productRouter := r.Group("/products")
-
 	{
-
 		// swagger
 		productRouter.Use(middlewares.Authentication())
 		// product Create
@@ -44,9 +42,7 @@ func StartApp() *gin.Engine {
 	}
 
 	photoRouter := r.Group("/photos")
-
 	{
-
 		// swagger
 		photoRouter.Use(middlewares.Authentication())
 		// photo Create
@@ -62,9 +58,7 @@ func StartApp() *gin.Engine {
 	}
 
 	socialMediaRouter := r.Group("/socialmedia")
-
 	{
-
 		// swagger
 		socialMediaRouter.Use(middlewares.Authentication())
 		// socmed Create
@@ -79,6 +73,21 @@ func StartApp() *gin.Engine {
 		socialMediaRouter.DELETE("/:socmedId", controllers.DeleteSocialMedia)
 	}
 
-	return r
+	commentsRouter := r.Group("/photos")
+	{
+		// swagger
+		commentsRouter.Use(middlewares.Authentication())
+		// socmed Create
+		commentsRouter.POST("/:photoId/comments", controllers.CreateComments)
+		// socmed Edit
+		commentsRouter.PUT("/:photoId/comments/:commentId", middlewares.SocMedAuthorization(), controllers.UpdateSocialMedia)
+		// socmed Create
+		commentsRouter.GET("/comments", controllers.GetComments)
+		// socmed Edit
+		commentsRouter.GET("/:photoId/comments", controllers.GetCommentByID)
+		// socmed Delete
+		commentsRouter.DELETE("/:photoId/comments", controllers.DeleteComment)
+	}
 
+	return r
 }

@@ -22,6 +22,10 @@ definitions:
     properties:
       caption:
         type: string
+      comments:
+        items:
+          $ref: '#/definitions/models.Comments'
+        type: array
       created_at:
         type: string
       id:
@@ -110,6 +114,232 @@ definitions:
 info:
   contact: {}
 paths:
+  /photo:
+    get:
+      description: Get All Photo data on database.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Photo'
+      security:
+      - Bearer: []
+      summary: get Photo
+      tags:
+      - Photo
+  /photo/{photoId}:
+    delete:
+      description: Delete Photo data on database based on inputed Id.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: hellyeah
+          schema:
+            type: string
+      security:
+      - Bearer: []
+      summary: Delete Photo
+      tags:
+      - Photo
+    get:
+      description: Get specific Photo data on database by Id.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Photo'
+      security:
+      - Bearer: []
+      summary: Get Photo by Id
+      tags:
+      - Photo
+    put:
+      description: Update Photo data on database.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Photo'
+      security:
+      - Bearer: []
+      summary: Update Photo
+      tags:
+      - Photo
+  /photos:
+    post:
+      description: Save Photo data in database it take userId who post it.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Photo'
+      security:
+      - Bearer: []
+      summary: Create Photo
+      tags:
+      - Photo
+  /photos/{photoId}/comments:
+    get:
+      description: Return list of Comments.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: obejct
+      security:
+      - Bearer: []
+      summary: Get All Comments.
+      tags:
+      - Comments
+    post:
+      description: Create Comment on photo it take userId who post it.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comments'
+      security:
+      - Bearer: []
+      summary: Create Comment
+      tags:
+      - Comments
+  /photos/{photoId}/comments/{commentId}:
+    delete:
+      description: Remove Comments data on Photo by id.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Comment deleted successfully
+          schema:
+            type: message
+        "401":
+          description: Unauthorized
+          schema:
+            type: error
+        "404":
+          description: Comment not found
+          schema:
+            type: error
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - Bearer: []
+      summary: Delete Comments
+      tags:
+      - Comments
+  /photos/{photoId}/comments/{productId}:
+    get:
+      description: Return the tahs whoes tagId valu mathes id.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comments'
+      security:
+      - Bearer: []
+      summary: Get Single Comment by id.
+      tags:
+      - Comments
+    put:
+      description: Update tags data.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comments'
+      security:
+      - Bearer: []
+      summary: Update Comments
+      tags:
+      - Comments
   /products:
     get:
       description: Return list of tags.
@@ -129,7 +359,7 @@ paths:
       - Bearer: []
       summary: Get All tags.
       tags:
-      - products
+      - Products
     post:
       description: Save product data in Db.
       parameters:
@@ -150,26 +380,15 @@ paths:
       - Bearer: []
       summary: Create Product
       tags:
-      - products
+      - Products
   /products/{productId}:
     delete:
       description: Remove tags data by id.
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Product'
-      summary: Delete tags
-      tags:
-      - products
-    get:
-      description: Return the tahs whoes tagId valu mathes id.
       parameters:
-      - description: update tags by id
-        in: path
-        name: tagId
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
         required: true
         type: string
       produces:
@@ -178,10 +397,33 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Product'
+            items:
+              $ref: '#/definitions/models.Product'
+            type: array
+      summary: Delete tags
+      tags:
+      - Products
+    get:
+      description: Return the tahs whoes tagId valu mathes id.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Product'
+            type: array
       summary: Get Single tags by id.
       tags:
-      - products
+      - Products
     patch:
       description: Update tags data.
       parameters:
@@ -205,17 +447,124 @@ paths:
             $ref: '#/definitions/models.Product'
       summary: Update tags
       tags:
-      - products
+      - Products
+  /socialmedia:
+    get:
+      description: get SocialMedia data in database it take userId who post it.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SocialMedia'
+      security:
+      - Bearer: []
+      summary: get Social Media
+      tags:
+      - SocialMedia
+    post:
+      description: Save SocialMedia data in database it take userId who post it.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SocialMedia'
+      security:
+      - Bearer: []
+      summary: Create Social Media
+      tags:
+      - SocialMedia
+  /socialmedia{socmedId}:
+    delete:
+      description: Delete SocialMedia data in database it take userId who post it.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Social Media deleted successfully
+          schema:
+            type: string
+      security:
+      - Bearer: []
+      summary: Delete Social Media
+      tags:
+      - SocialMedia
+    get:
+      description: Get SocialMedia data in database it take userId who post it.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SocialMedia'
+      security:
+      - Bearer: []
+      summary: Get Social Media
+      tags:
+      - SocialMedia
+    put:
+      description: Update SocialMedia data in database it take userId who post it.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SocialMedia'
+      security:
+      - Bearer: []
+      summary: Update Social Media
+      tags:
+      - SocialMedia
   /users/login:
     post:
       description: New user Login and verived based on data in Db.
       parameters:
-      - description: User login
-        in: body
-        name: tags
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
         required: true
-        schema:
-          $ref: '#/definitions/models.User'
+        type: string
       produces:
       - application/json
       responses:
@@ -223,27 +572,33 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.User'
+      security:
+      - Bearer: []
       summary: User Login
       tags:
-      - user
+      - User
   /users/register:
     post:
       description: Register new user data in Db.
       parameters:
-      - description: Create user
-        in: body
-        name: tags
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
         required: true
-        schema:
-          $ref: '#/definitions/models.User'
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.User'
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      security:
+      - Bearer: []
       summary: Create new User
       tags:
-      - user
+      - User
 swagger: "2.0"

@@ -11,6 +11,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CreateSocialMedia	godoc
+// @Summary				Create Social Media
+// @Description			Save SocialMedia data in database it take userId who post it.
+// @Produce				application/json
+// @Tags				SocialMedia
+// @Success				200 {object} models.SocialMedia{}
+// @Security 			Bearer
+// @Param 				Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Router				/socialmedia [post]
 func CreateSocialMedia(c *gin.Context) {
 	db := database.GetDB()
 	userData := c.MustGet("userData").(jwt.MapClaims)
@@ -39,6 +48,15 @@ func CreateSocialMedia(c *gin.Context) {
 	c.JSON(http.StatusCreated, SocialMedia)
 }
 
+// UpdateSocialMedia	godoc
+// @Summary				Update Social Media
+// @Description			Update SocialMedia data in database it take userId who post it.
+// @Produce				application/json
+// @Tags				SocialMedia
+// @Success				200 {object} models.SocialMedia{}
+// @Security 			Bearer
+// @Param 				Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Router				/socialmedia{socmedId} [put]
 func UpdateSocialMedia(c *gin.Context) {
 	db := database.GetDB()
 	userData := c.MustGet("userData").(jwt.MapClaims)
@@ -54,23 +72,40 @@ func UpdateSocialMedia(c *gin.Context) {
 		c.ShouldBind(&SocialMedia)
 	}
 
-	SocialMedia.UserID = userID
-	SocialMedia.ID = uint(socmedId)
-
-	// err := db.Table("Product").Where("id = ?", c.param("productId")).Updates(models.Product{Title: Product.Title, Description: Product.Description}).Error
-	err := db.Model(&SocialMedia).Where("id = ?", socmedId).Updates(models.SocialMedia{Name: SocialMedia.Name, SocialMediaURL: SocialMedia.SocialMediaURL}).Error
-
+	// Check if the social media record exists and is owned by the user
+	err := db.Where("id = ? AND user_id = ?", socmedId, userID).First(&SocialMedia).Error
 	if err != nil {
-
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
 		})
 		return
 	}
+
+	SocialMedia.UserID = userID
+	SocialMedia.ID = uint(socmedId)
+
+	err = db.Save(&SocialMedia).Error
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Bad Request",
+			"message": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, SocialMedia)
 }
 
+// GetSocialMedia		godoc
+// @Summary				get Social Media
+// @Description			get SocialMedia data in database it take userId who post it.
+// @Produce				application/json
+// @Tags				SocialMedia
+// @Success				200 {object} models.SocialMedia{}
+// @Security 			Bearer
+// @Param 				Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Router				/socialmedia [get]
 func GetSocialMedia(c *gin.Context) {
 	db := database.GetDB()
 
@@ -88,6 +123,15 @@ func GetSocialMedia(c *gin.Context) {
 	c.JSON(http.StatusOK, SocialMedia)
 }
 
+// GetSocialMediaById	godoc
+// @Summary				Get Social Media
+// @Description			Get SocialMedia data in database it take userId who post it.
+// @Produce				application/json
+// @Tags				SocialMedia
+// @Success				200 {object} models.SocialMedia{}
+// @Security 			Bearer
+// @Param 				Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Router				/socialmedia{socmedId} [get]
 func GetSocialMediaById(c *gin.Context) {
 	db := database.GetDB()
 
@@ -107,22 +151,34 @@ func GetSocialMediaById(c *gin.Context) {
 	c.JSON(http.StatusOK, SocialMedia)
 }
 
+// DeleteSocialMedia	godoc
+// @Summary				Delete Social Media
+// @Description			Delete SocialMedia data in database it take userId who post it.
+// @Produce				application/json
+// @Tags				SocialMedia
+// @Success				200 {string} hell yeah "Social Media deleted successfully"
+// @Security 			Bearer
+// @Param 				Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Router				/socialmedia{socmedId} [delete]
 func DeleteSocialMedia(c *gin.Context) {
 	db := database.GetDB()
+	userData := c.MustGet("userData").(jwt.MapClaims)
 	socmedID, _ := strconv.Atoi(c.Param("socmedId"))
+	userID := uint(userData["id"].(float64))
 
-	// Check if the product exists
+	// Check if the social media record exists and is owned by the user
 	SocialMedia := models.SocialMedia{}
-	if err := db.First(&SocialMedia, socmedID).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error":   "Not Found",
-			"message": "Social Media not found",
+	err := db.Where("id = ? AND user_id = ?", socmedID, userID).First(&SocialMedia).Error
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Bad Request",
+			"message": err.Error(),
 		})
 		return
 	}
 
-	// Delete the product
-	if err := db.Delete(&SocialMedia).Error; err != nil {
+	err = db.Delete(&SocialMedia).Error
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Internal Server Error",
 			"message": "Failed to delete Social Media",

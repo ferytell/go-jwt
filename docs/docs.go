@@ -16,6 +16,363 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/photo": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get All Photo data on database.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Photo"
+                ],
+                "summary": "get Photo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Photo"
+                        }
+                    }
+                }
+            }
+        },
+        "/photo/{photoId}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get specific Photo data on database by Id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Photo"
+                ],
+                "summary": "Get Photo by Id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Photo"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update Photo data on database.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Photo"
+                ],
+                "summary": "Update Photo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Photo"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete Photo data on database based on inputed Id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Photo"
+                ],
+                "summary": "Delete Photo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "hellyeah",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/photos": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Save Photo data in database it take userId who post it.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Photo"
+                ],
+                "summary": "Create Photo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Photo"
+                        }
+                    }
+                }
+            }
+        },
+        "/photos/{photoId}/comments": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Return list of Comments.",
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Get All Comments.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "obejct"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create Comment on photo it take userId who post it.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Create Comment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Comments"
+                        }
+                    }
+                }
+            }
+        },
+        "/photos/{photoId}/comments/{commentId}": {
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Remove Comments data on Photo by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Delete Comments",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comment deleted successfully",
+                        "schema": {
+                            "type": "message"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "error"
+                        }
+                    },
+                    "404": {
+                        "description": "Comment not found",
+                        "schema": {
+                            "type": "error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/photos/{photoId}/comments/{productId}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Return the tahs whoes tagId valu mathes id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Get Single Comment by id.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Comments"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update tags data.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Update Comments",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Comments"
+                        }
+                    }
+                }
+            }
+        },
         "/products": {
             "get": {
                 "security": [
@@ -25,7 +382,7 @@ const docTemplate = `{
                 ],
                 "description": "Return list of tags.",
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Get All tags.",
                 "parameters": [
@@ -58,7 +415,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Create Product",
                 "parameters": [
@@ -88,15 +445,16 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Get Single tags by id.",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "update tags by id",
-                        "name": "tagId",
-                        "in": "path",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -104,7 +462,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Product"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Product"
+                            }
                         }
                     }
                 }
@@ -115,14 +476,27 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Delete tags",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Product"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Product"
+                            }
                         }
                     }
                 }
@@ -133,7 +507,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Update tags",
                 "parameters": [
@@ -164,25 +538,198 @@ const docTemplate = `{
                 }
             }
         },
+        "/socialmedia": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "get SocialMedia data in database it take userId who post it.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SocialMedia"
+                ],
+                "summary": "get Social Media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SocialMedia"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Save SocialMedia data in database it take userId who post it.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SocialMedia"
+                ],
+                "summary": "Create Social Media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SocialMedia"
+                        }
+                    }
+                }
+            }
+        },
+        "/socialmedia{socmedId}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get SocialMedia data in database it take userId who post it.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SocialMedia"
+                ],
+                "summary": "Get Social Media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SocialMedia"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update SocialMedia data in database it take userId who post it.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SocialMedia"
+                ],
+                "summary": "Update Social Media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SocialMedia"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete SocialMedia data in database it take userId who post it.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SocialMedia"
+                ],
+                "summary": "Delete Social Media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Social Media deleted successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/users/login": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "New user Login and verived based on data in Db.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "User"
                 ],
                 "summary": "User Login",
                 "parameters": [
                     {
-                        "description": "User login",
-                        "name": "tags",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.User"
-                        }
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -197,30 +744,37 @@ const docTemplate = `{
         },
         "/users/register": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Register new user data in Db.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "User"
                 ],
                 "summary": "Create new User",
                 "parameters": [
                     {
-                        "description": "Create user",
-                        "name": "tags",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.User"
-                        }
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.User"
+                            }
                         }
                     }
                 }
@@ -262,6 +816,12 @@ const docTemplate = `{
             "properties": {
                 "caption": {
                     "type": "string"
+                },
+                "comments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Comments"
+                    }
                 },
                 "created_at": {
                     "type": "string"

@@ -15,7 +15,7 @@ import (
 // @Summary			Create Product
 // @Description		Save product data in Db.
 // @Produce			application/json
-// @Tags			products
+// @Tags			Products
 // @Success			200 {object} models.Product{}
 // @Security 		Bearer
 // @Param 			Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
@@ -53,7 +53,7 @@ func CreateProduct(c *gin.Context) {
 // @Description		Update tags data.
 // @Param			tagId path string true "update tags by id"
 // @Param			tags body models.Product{} true  "Update tags"
-// @Tags			products
+// @Tags			Products
 // @Produce			application/json
 // @Success			200 {object} models.Product{}
 // @Router			/products/{productId} [patch]
@@ -92,7 +92,7 @@ func UpdateProduct(c *gin.Context) {
 // FindAllTags 		godoc
 // @Summary			Get All tags.
 // @Description		Return list of tags.
-// @Tags			products
+// @Tags			Products
 // @Security 		Bearer
 // @Param 			Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 // @Success			200 {obejct} []models.Product{}
@@ -116,11 +116,11 @@ func GetProduct(c *gin.Context) {
 
 // FindByIdTags 		godoc
 // @Summary				Get Single tags by id.
-// @Param				tagId path string true "update tags by id"
+// @Param 				Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 // @Description			Return the tahs whoes tagId valu mathes id.
 // @Produce				application/json
-// @Tags				products
-// @Success				200 {object} models.Product{}
+// @Tags				Products
+// @Success				200 {object} []models.Product{productId}
 // @Router				/products/{productId} [get]
 func GetProductByID(c *gin.Context) {
 	db := database.GetDB()
@@ -145,8 +145,9 @@ func GetProductByID(c *gin.Context) {
 // @Summary			Delete tags
 // @Description		Remove tags data by id.
 // @Produce			application/json
-// @Tags			products
-// @Success			200 {object} models.Product{}
+// @Param 			Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Tags			Products
+// @Success			200 {object} []models.Product{}
 // @Router			/products/{productId} [delete]
 func DeleteProduct(c *gin.Context) {
 	db := database.GetDB()
