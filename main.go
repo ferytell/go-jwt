@@ -24,10 +24,11 @@ func init() {
 }
 
 func main() {
+	var PORT = os.Getenv("PORT")
 	// Database
 	database.StartDB()
 	// Start Router
 	r := router.StartApp()
-	r.Run(":" + os.Getenv("PORT"))
+	r.Run(":" + PORT)
 
 }
