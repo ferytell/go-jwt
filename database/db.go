@@ -21,7 +21,7 @@ var (
 )
 
 func StartDB() {
-	config := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", os.Getenv("HOST"), os.Getenv("USER"), os.Getenv("PASS"), os.Getenv("DBNAME"), os.Getenv("DBPORT"))
+	config := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", os.Getenv("PGHOST"), os.Getenv("PGUSER"), os.Getenv("PGPASSWORD"), os.Getenv("PGDATABASE"), os.Getenv("PGPORT"))
 	dsn := config
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
