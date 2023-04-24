@@ -91,7 +91,7 @@ func UpdateComment(c *gin.Context) {
 	userData := c.MustGet("userData").(jwt.MapClaims)
 	contentType := helpers.GetContentType(c)
 
-	commentID, err := strconv.ParseUint(c.Param("id"), 10, 64) // get comment ID from URL parameter
+	commentID, err := strconv.ParseUint(c.Param("commentId"), 10, 64) // get comment ID from URL parameter
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",

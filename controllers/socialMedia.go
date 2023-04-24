@@ -61,19 +61,33 @@ func UpdateSocialMedia(c *gin.Context) {
 	db := database.GetDB()
 	userData := c.MustGet("userData").(jwt.MapClaims)
 	contentType := helpers.GetContentType(c)
-	SocialMedia := models.SocialMedia{}
+	socmed := models.SocialMedia{}
 
 	socmedId, _ := strconv.Atoi(c.Param("socmedId"))
 	userID := uint(userData["id"].(float64))
 
 	if contentType == appJSON {
-		c.ShouldBindJSON(&SocialMedia)
+		c.ShouldBindJSON(&socmed)
 	} else {
-		c.ShouldBind(&SocialMedia)
+		c.ShouldBind(&socmed)
 	}
 
-	// Check if the social media record exists and is owned by the user
-	err := db.Where("id = ? AND user_id = ?", socmedId, userID).First(&SocialMedia).Error
+	socmed.UserID = userID
+	socmed.ID = uint(socmedId)
+
+	// check if the social media exists and belongs to the user
+	var existingSocmed models.SocialMedia
+	err := db.Where("id = ? AND user_id = ?", socmedId, userID).First(&existingSocmed).Error
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error":   "Unauthorized",
+			"message": "You are not authorized to update this social media",
+		})
+		return
+	}
+
+	// update the social media
+	err = db.Model(&existingSocmed).Updates(models.SocialMedia{Name: socmed.Name, SocialMediaURL: socmed.SocialMediaURL}).Error
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
@@ -82,19 +96,7 @@ func UpdateSocialMedia(c *gin.Context) {
 		return
 	}
 
-	SocialMedia.UserID = userID
-	SocialMedia.ID = uint(socmedId)
-
-	err = db.Save(&SocialMedia).Error
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
-		})
-		return
-	}
-
-	c.JSON(http.StatusOK, SocialMedia)
+	c.JSON(http.StatusOK, existingSocmed)
 }
 
 // GetSocialMedia		godoc

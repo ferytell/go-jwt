@@ -32,7 +32,6 @@ func StartDB() {
 	// Migrate models
 	db.Debug().AutoMigrate(
 		models.User{},
-		models.Product{},
 		models.Comments{},
 		models.Photo{},
 		models.SocialMedia{},

@@ -25,22 +25,6 @@ func StartApp() *gin.Engine {
 		userRouter.POST("/login", controllers.UserLogin)
 	}
 
-	productRouter := r.Group("/products")
-	{
-		// swagger
-		productRouter.Use(middlewares.Authentication())
-		// product Create
-		productRouter.POST("/", controllers.CreateProduct)
-		// product Edit
-		productRouter.PUT("/:productId", middlewares.ProductAuthorization(), controllers.UpdateProduct)
-		// product Create
-		productRouter.GET("/", controllers.GetProduct)
-		// product Edit
-		productRouter.GET("/:productId", controllers.GetProductByID)
-		// product Delete
-		productRouter.DELETE("/:productId", controllers.DeleteProduct)
-	}
-
 	photoRouter := r.Group("/photos")
 	{
 		// swagger
@@ -80,13 +64,13 @@ func StartApp() *gin.Engine {
 		// socmed Create
 		commentsRouter.POST("/:photoId/comments", controllers.CreateComments)
 		// socmed Edit
-		commentsRouter.PUT("/:photoId/comments/:commentId", middlewares.SocMedAuthorization(), controllers.UpdateSocialMedia)
+		commentsRouter.PUT("/:photoId/comments/:commentId", middlewares.CommentsAuthorization(), controllers.UpdateComment)
 		// socmed Create
 		commentsRouter.GET("/comments", controllers.GetComments)
 		// socmed Edit
-		commentsRouter.GET("/:photoId/comments", controllers.GetCommentByID)
+		commentsRouter.GET("/:photoId/comments/:commentId", controllers.GetCommentByID)
 		// socmed Delete
-		commentsRouter.DELETE("/:photoId/comments", controllers.DeleteComment)
+		commentsRouter.DELETE("/:photoId/comments/:commentId", controllers.DeleteComment)
 	}
 
 	return r
