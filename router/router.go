@@ -16,6 +16,11 @@ func StartApp() *gin.Engine {
 	// open here http://localhost:8000/swagger/index.html
 	// @Security BearerAuth
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.GET("/", func(ctx *gin.Context) {
+		ctx.JSON(200, gin.H{
+			"message": "Hello bro, tester aja gw mah",
+		})
+	})
 
 	userRouter := r.Group("/users")
 	{
