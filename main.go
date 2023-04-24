@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/ferytell/go-jwt/database"
 	_ "github.com/ferytell/go-jwt/docs"
 	"github.com/ferytell/go-jwt/initializer"
@@ -24,10 +26,8 @@ func init() {
 func main() {
 	// Database
 	database.StartDB()
-	var PORT = ":8000"
-
 	// Start Router
 	r := router.StartApp()
-	r.Run(PORT)
+	r.Run(":" + os.Getenv("PORT"))
 
 }
