@@ -187,7 +187,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/photos/{photoId}/comments": {
+        "/photos/comments": {
             "get": {
                 "security": [
                     {
@@ -214,6 +214,76 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "type": "obejct"
+                        }
+                    }
+                }
+            }
+        },
+        "/photos/comments/{commentId}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Return the tahs whoes tagId valu mathes id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Get Single Comment by id.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Comments"
+                        }
+                    }
+                }
+            }
+        },
+        "/photos/{photoId}/comments": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Return the tahs whoes tagId valu mathes id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Get Comment on some photo id.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Comments"
                         }
                     }
                 }
@@ -306,39 +376,6 @@ const docTemplate = `{
             }
         },
         "/photos/{photoId}/comments/{productId}": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Return the tahs whoes tagId valu mathes id.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Comments"
-                ],
-                "summary": "Get Single Comment by id.",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "default": "Bearer \u003cAdd access token here\u003e",
-                        "description": "Insert your access token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Comments"
-                        }
-                    }
-                }
-            },
             "put": {
                 "security": [
                     {

@@ -146,7 +146,7 @@ func UpdateComment(c *gin.Context) {
 // @Security 			Bearer
 // @Param 				Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 // @Success				200 {obejct} []models.Comments{}
-// @Router				/photos/{photoId}/comments [get]
+// @Router				/photos/comments [get]
 func GetComments(c *gin.Context) {
 	db := database.GetDB()
 
@@ -173,14 +173,49 @@ func GetComments(c *gin.Context) {
 // @Produce				application/json
 // @Tags				Comments
 // @Success				200 {object} models.Comments{}
-// @Router				/photos/{photoId}/comments/{productId} [get]
+// @Router				/photos/comments/{commentId} [get]
 func GetCommentByID(c *gin.Context) {
 	db := database.GetDB()
 
-	photoId, _ := strconv.Atoi(c.Param("photoId"))
+	commentID, err := strconv.Atoi(c.Param("commentId"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Bad Request",
+			"message": err.Error(),
+		})
+		return
+	}
 
-	comments := models.Comments{}
-	err := db.Where("id = ?", photoId).First(&comments).Error
+	comment := models.Comments{}
+	err = db.Where("id = ?", commentID).First(&comment).Error
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Bad Request",
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, comment)
+}
+
+// FindByIdComments 	godoc
+// @Summary				Get Comment on some photo id.
+// @Security 			Bearer
+// @Param 				Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Description			Return the tahs whoes tagId valu mathes id.
+// @Produce				application/json
+// @Tags				Comments
+// @Success				200 {object} models.Comments{}
+// @Router				/photos/{photoId}/comments [get]
+func GetCommentsByPhotoID(c *gin.Context) {
+	db := database.GetDB()
+
+	photoID, _ := strconv.Atoi(c.Param("photoId"))
+
+	var comments []models.Comments
+	err := db.Where("photo_id = ?", photoID).Find(&comments).Error
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

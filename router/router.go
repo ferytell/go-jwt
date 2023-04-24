@@ -61,15 +61,17 @@ func StartApp() *gin.Engine {
 	{
 		// swagger
 		commentsRouter.Use(middlewares.Authentication())
-		// socmed Create
+		// comments Create
 		commentsRouter.POST("/:photoId/comments", controllers.CreateComments)
-		// socmed Edit
+		// comments Update
 		commentsRouter.PUT("/:photoId/comments/:commentId", middlewares.CommentsAuthorization(), controllers.UpdateComment)
-		// socmed Create
+		// comments Get All
 		commentsRouter.GET("/comments", controllers.GetComments)
-		// socmed Edit
-		commentsRouter.GET("/:photoId/comments/:commentId", controllers.GetCommentByID)
-		// socmed Delete
+		// comments Get By Photo Id
+		commentsRouter.GET("/:photoId/comments", controllers.GetCommentsByPhotoID)
+		// comments Get By comment Id
+		commentsRouter.GET("/comments/:commentId", controllers.GetCommentByID)
+		// comments Delete
 		commentsRouter.DELETE("/:photoId/comments/:commentId", controllers.DeleteComment)
 	}
 

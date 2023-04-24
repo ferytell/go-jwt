@@ -203,7 +203,7 @@ paths:
       - Photo
   /photos/{photoId}/comments:
     get:
-      description: Return list of Comments.
+      description: Return the tahs whoes tagId valu mathes id.
       parameters:
       - default: Bearer <Add access token here>
         description: Insert your access token
@@ -211,14 +211,16 @@ paths:
         name: Authorization
         required: true
         type: string
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: obejct
+            $ref: '#/definitions/models.Comments'
       security:
       - Bearer: []
-      summary: Get All Comments.
+      summary: Get Comment on some photo id.
       tags:
       - Comments
     post:
@@ -277,27 +279,6 @@ paths:
       tags:
       - Comments
   /photos/{photoId}/comments/{productId}:
-    get:
-      description: Return the tahs whoes tagId valu mathes id.
-      parameters:
-      - default: Bearer <Add access token here>
-        description: Insert your access token
-        in: header
-        name: Authorization
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Comments'
-      security:
-      - Bearer: []
-      summary: Get Single Comment by id.
-      tags:
-      - Comments
     put:
       description: Update tags data.
       parameters:
@@ -317,6 +298,48 @@ paths:
       security:
       - Bearer: []
       summary: Update Comments
+      tags:
+      - Comments
+  /photos/comments:
+    get:
+      description: Return list of Comments.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: obejct
+      security:
+      - Bearer: []
+      summary: Get All Comments.
+      tags:
+      - Comments
+  /photos/comments/{commentId}:
+    get:
+      description: Return the tahs whoes tagId valu mathes id.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comments'
+      security:
+      - Bearer: []
+      summary: Get Single Comment by id.
       tags:
       - Comments
   /socialmedia:
