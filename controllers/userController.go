@@ -20,7 +20,10 @@ var (
 // @Security 		Bearer
 // @Produce			application/json
 // @Tags			User
-// @Success			200 {object} []models.User{}
+// @Success			200 {object} models.GetUserResponse{}
+// @Failure 		400
+// @Failure 		422
+// @Failure 		500
 // @Router			/users/register [post]
 func UserRegister(c *gin.Context) {
 	db := database.GetDB()
@@ -59,7 +62,7 @@ func UserRegister(c *gin.Context) {
 // @Param 			Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 // @Produce			application/json
 // @Tags			User
-// @Success			200 {object} models.User{}
+// @Success			200 {object} models.GetUserResponse{}
 // @Router			/users/login [post]
 func UserLogin(c *gin.Context) {
 	db := database.GetDB()

@@ -349,28 +349,19 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Comment deleted successfully",
+                        "description": "OK",
                         "schema": {
-                            "type": "message"
+                            "$ref": "#/definitions/models.GetUserResponse"
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "type": "error"
-                        }
+                        "description": "Unauthorized"
                     },
                     "404": {
-                        "description": "Comment not found",
-                        "schema": {
-                            "type": "error"
-                        }
+                        "description": "Not Found"
                     },
                     "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "description": "Internal Server Error"
                     }
                 }
             }
@@ -608,7 +599,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/models.GetUserResponse"
                         }
                     }
                 }
@@ -643,10 +634,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.User"
-                            }
+                            "$ref": "#/definitions/models.GetUserResponse"
                         }
                     }
                 }
@@ -680,6 +668,23 @@ const docTemplate = `{
                 },
                 "userID": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.GetUserResponse": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "user_name": {
+                    "type": "string"
                 }
             }
         },

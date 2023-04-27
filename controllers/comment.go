@@ -235,10 +235,10 @@ func GetCommentsByPhotoID(c *gin.Context) {
 // @Security 		Bearer
 // @Param 			Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 // @Tags			Comments
-// @Success 		200 {message} string "Comment deleted successfully"
-// @Failure 		401 {error} string "Unauthorized"
-// @Failure 		404 {error} string "Comment not found"
-// @Failure 		500 {string} string "Internal Server Error"
+// @Success			200
+// @Failure 		400
+// @Failure 		422
+// @Failure 		500
 // @Router			/photos/{photoId}/comments/{commentId} [delete]
 func DeleteComment(c *gin.Context) {
 	db := database.GetDB()

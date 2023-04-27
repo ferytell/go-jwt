@@ -132,7 +132,10 @@ func GetPhoto(c *gin.Context) {
 // @Param 				Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 // @Tags				Photo
 // @Produce				application/json
-// @Success				200 {object} models.Photo{}
+// @Success			200
+// @Failure 		400
+// @Failure 		422
+// @Failure 		500
 // @Router				/photo/{photoId} [get]
 func GetPhotoByID(c *gin.Context) {
 	db := database.GetDB()
