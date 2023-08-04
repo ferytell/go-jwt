@@ -14,23 +14,23 @@ DBNAME="database"
 ```
 Availabel Endpoints :
 1. User :
-  Register [POST] 
-  Login [POST]
+ - Register [POST] 
+ - Login [POST]
 2. Social Media :
-  GetAll [GET] 
-  GetOne [GET]
-  CreateSocialMedia [POST]
-  UpdateSocialMedia [PUT]
-  DeleteSocialMedia [DELETE]
-2.Photo :
-  GetAll [GET]
-  GetOne [GET]
-  CreatePhoto [POST]
-  UpdatePhoto [PUT]
-  DeletePhoto [DELETE]
-3.Comment :
-  GetAll [GET]
-  GetOne [GET]
-  CreateComment [POST]
-  UpdateComment [PUT]
-  DeleteComment [DELET
+ - GetAll [GET] 
+ - GetOne [GET]
+ - CreateSocialMedia [POST]
+ - UpdateSocialMedia [PUT]
+ - DeleteSocialMedia [DELETE]
+3. Photo :
+- GetAll [GET]
+- GetOne [GET]
+- CreatePhoto [POST]
+- UpdatePhoto [PUT]
+- DeletePhoto [DELETE]
+4. Comment :
+- GetAll [GET]
+- GetOne [GET]
+- CreateComment [POST]
+- UpdateComment [PUT]
+- DeleteComment [DELET
